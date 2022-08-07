@@ -1,9 +1,13 @@
 const express = require('express')
 const app = express()
-const bodyParser = require('body-parser')
+const morgan = require('morgan')
 
 app.use(express.json())
-app.use(bodyParser.json())
+app.use(morgan('tiny :method :url :status :res[content-length] - :response-time ms :postContact'))
+
+morgan.token('postContact', (req, res) => 
+	JSON.stringify(req.body)
+)
 
 let persons = [
     {
